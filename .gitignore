@@ -1,0 +1,5 @@
+# phpstorm project files
+.idea
+
+# swoole-ide
+swoole-ide-helper-english

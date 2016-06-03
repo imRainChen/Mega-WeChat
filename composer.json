@@ -1,0 +1,6 @@
+{
+    "require": {
+        "psr/log": "^1.0",
+        "monolog/monolog": "^1.19"
+    }
+}

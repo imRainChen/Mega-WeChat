@@ -1,0 +1,40 @@
+#!/usr/bin/env php
+<?php
+/**
+ * Created by PhpStorm.
+ * User: rain1
+ * Date: 2016/5/10
+ * Time: 18:00
+ */
+// 定义根目录
+define('ROOT_PATH', dirname(__FILE__));
+require ROOT_PATH . '/autoload.php';
+
+if (!isset($argv[1])|| !isset($argv[2])) {
+    echo "please input cmd and server name: start all,start testserv " . PHP_EOL;
+    exit;
+}
+
+$cmd = $argv[2];
+$name = $argv[1];
+
+$configPath = ROOT_PATH . '/config/' . $name . '.ini';//获取配置地址
+if (!file_exists($configPath)) {
+    throw new \Exception("[error] profiles [$configPath] can not be loaded");
+}
+
+\Swoole\Util\Config::loadConfig($configPath);
+
+if (empty($class = \Swoole\Util\Config::get('server.class'))) {
+    throw new \Exception("[error] server class not set");
+}
+
+if (empty($protocol = \Swoole\Util\Config::get('server.protocol'))) {
+    throw new \Exception("[error] protocol not set");
+}
+
+/** @var \Swoole\Service\Implement\Server $server */
+$server = new $class();
+$server->loadConfig(\Swoole\Util\Config::getConfig());
+$server->setProtocol(new $protocol());
+$server->run($cmd);
