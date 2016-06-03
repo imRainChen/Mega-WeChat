@@ -3,8 +3,6 @@ Mega-wechat
 
 Mega-wechat是一款发送微信模板消息的服务，基于Swoole网络框架实现。支持大量的消息发送，并发执行发送模板消息接口，整个发送过程按照先来先服务的队列执行。支持定制模板消息，随时改随时用。
 
-- Coding地址：https://coding.net/u/imrain/p/Mega-wechat/git
-
 设计初衷
 ----------
 在公司里运营需要经常发送微信模板消息到指定的用户，那时候其他业务的实现比较紧急，所以仅仅是简单的写死一些模板消息到controller里面，用的时候执行下命令完成运营的需求。因此也造成改模板内容的时候需要改代码并用git更新，而且由于单进程的问题大量的模板消息发送会非常耗时（主要是curl调用微信接口的耗时）。
@@ -64,7 +62,6 @@ vendor/				支持composer，依赖monolog写日志
 autoload.php
 mega				Mega命令入口
 ```
--------------------
 
 介绍
 ----------
@@ -85,7 +82,7 @@ mega				Mega命令入口
 
 > yum install mysql
 
-安装成功Mysql需要创建一张mega_wechat_template表，[详细结构由下一章节介绍](#user-content-mysql)
+安装成功Mysql需要创建一张mega_wechat_template表，[详细结构由下一章节介绍](#服务端对Mysql的依赖)
 
 **第三步**
 安装swoole扩展前必须保证系统已经安装了下列软件
@@ -334,7 +331,8 @@ Send协议也是发送模板消息，不同于Push的是Server端会在调用完
 
 贡献
 ----------
-如果有什么建议欢迎联系，[也可发布问题和反馈。](#)
+如果有什么建议欢迎联系，[也可发布问题和反馈。](https://github.com/imRainChen/Mega-Wechat/issues)
+
 联系QQ：125876448
 
 License
