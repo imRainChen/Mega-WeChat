@@ -1,7 +1,7 @@
-Mega-wechat
+Mega-Wechat
 ==========
 
-Mega-wechat是一款发送微信模板消息的服务，基于Swoole网络框架实现。支持大量的消息发送，并发执行发送模板消息接口，整个发送过程按照先来先服务的队列执行。支持定制模板消息，随时改随时用。
+Mega-Wechat是一款发送微信模板消息的服务，基于Swoole网络框架实现。支持大量的消息发送，并发执行发送模板消息接口，整个发送过程按照先来先服务的队列执行。支持定制模板消息，随时改随时用。
 
 设计初衷
 ----------
@@ -13,7 +13,7 @@ Mega-wechat是一款发送微信模板消息的服务，基于Swoole网络框架
 
 第二种是由一个进程分发任务fork多个子进程，通过子进程不断轮询redis队列，这种方案也是实现起来也是比较简单，但可控性太差基本上是很难控制的。
 
-第三种也是目前使用的方案，是通过swoole实现一个类似于消息队列的服务，由多个task执行慢速的curl调微信API的操作，并且可以返回执行后的结果给到客户端。由于swoole是一个非常强大的网络框架，能接收很大并发，理论上来说大量的发送模板消息请求，swoole都可以撑得住，但因为微信的发送模板消息API耗时比较高，大量的请求投递到task中执行，由于处理的速度比不上接收的速度，将会导致缓冲区溢出，所以Mega-wechat里用上了文件队列，将请求都先投入到队列中，等待task进程空闲时，从队列中取出请求并投递到task中处理发送模板消息请求。这样的实现就不会导致缓冲区溢出，而且还能支撑大量的并发。但是由于微信对模板消息有一套规则限制，所以大量的调用API仅仅是理论上的。
+第三种也是目前使用的方案，是通过swoole实现一个类似于消息队列的服务，由多个task执行慢速的curl调微信API的操作，并且可以返回执行后的结果给到客户端。由于swoole是一个非常强大的网络框架，能接收很大并发，理论上来说大量的发送模板消息请求，swoole都可以撑得住，但因为微信的发送模板消息API耗时比较高，大量的请求投递到task中执行，由于处理的速度比不上接收的速度，将会导致缓冲区溢出，所以Mega-Wechat里用上了文件队列，将请求都先投入到队列中，等待task进程空闲时，从队列中取出请求并投递到task中处理发送模板消息请求。这样的实现就不会导致缓冲区溢出，而且还能支撑大量的并发。但是由于微信对模板消息有一套规则限制，所以大量的调用API仅仅是理论上的。
 
 功能特性
 ----------
@@ -106,7 +106,7 @@ mega				Mega命令入口
 
 ###服务端对Mysql的依赖
 
-在Mega-wechat的服务端里对微信模板做了存储。这是因为大部分的业务需要经常修改模板的内容，对于这些经常需要改变的模板，如果写死到程序里是非常的不方便，所以利用了MySql存储模板和额外添加了一些业务需要的字段。
+在Mega-Wechat的服务端里对微信模板做了存储。这是因为大部分的业务需要经常修改模板的内容，对于这些经常需要改变的模板，如果写死到程序里是非常的不方便，所以利用了MySql存储模板和额外添加了一些业务需要的字段。
 
 对于服务端而言启动时会对数据库的模板进行缓存，若需要更新模板也有相应的命令实时更新服务端的模板缓存，因此不需要担心每次发送模板时都需要从数据库中获取模板造成性能下降的问题。
 
@@ -172,7 +172,7 @@ template字段格式，例子如下：
 ;启动server类
 class = "Server\MegaWechatServer"
 ;协议类
-protocol = "Network\WechatProtocol"
+protocol = "Network\MegaWechatProtocol"
 ;主机和端口
 listen[] = 127.0.0.1:9501
 ;缓存模板个数
@@ -180,7 +180,7 @@ table_size = 100;
 ;缓存模板内容最大size
 template_size = 4048
 ;文件队列存储路径
-queue_file_path = "/Mega-wechat/logs/queue"
+queue_file_path = "/Mega-Wechat/logs/queue"
 
 [setting]
 ;;;;;;;;;;;;swoole配置;;;;;;;;;;;;;;
@@ -205,13 +205,13 @@ password = i201314
 table_prefix = mega_
 
 [wechat]
-app_id = wx80c4bf4cf0dae125
-app_secret = e01207cd547f62d73f5099aae83a9f15
-token = e01207cd547f62d73f5099aae83a9f15
+app_id = wx10c4b54cf0aae125
+app_secret = e01207cc547f62d73f5099aae83a9f15
+token = e01207cd547f62d73f5099cae83a9f15
 
 [log]
 ;;;;;;系统log配置，基于monolog;;;;;;
-log_file = /qcloud/Mega-wechat/logs/mega.log
+log_file = /Mega-Wechat/logs/mega.log
 ;存储日志级别
 log_level = warning
 ;日志前缀
@@ -223,7 +223,7 @@ log_prefix = mega
 根据配置文件启动server，以每个.ini文件作为服务名和配置，如config/wechat.ini配置文件：
 
 ``` php
-cd Mega-wechat
+cd Mega-Wechat
 
 //php mega ${配置文件名} ${cmd}
 php mega wechat start //开启服务 
@@ -233,7 +233,7 @@ php mega wechat restart //重启服务
 
 通讯协议
 ----------
-Mega-wechat通信走的是TCP，协议采用固定包头+包体的协议设计。通用的协议格式如下：
+Mega-Wechat通信走的是TCP，协议采用固定包头+包体的协议设计。通用的协议格式如下：
 
 ```php
 {packLength}{headerLength}{command} {params}{opaque}{bodyLength}{body}
@@ -301,7 +301,7 @@ new BooleanCommand($code, $message, $opaque)
 
 客户端实现思路
 ----------
-Mega-wechat暂时未开源客户端实现，这部分公司正在运行当中，会在以后开源出来。不过对此会给大家写两个思路，第一种是利用Send协议，另一种是Push协议，这两者可以应对不同的场景。
+Mega-Wechat暂时未开源客户端实现，这部分公司正在运行当中，会在以后开源出来。不过对此会给大家写两个思路，第一种是利用Send协议，另一种是Push协议，这两者可以应对不同的场景。
 
 ####Push场景
 Push协议主要是对于不希望等待微信调用API耗时的实现。具体来说Push会把每一次发送模板消息放入队列后，Server端就会立刻作出应答，此时客户端就可以继续运行业务逻辑，而不需要关心这条发送模板消息是否成功。（Server端可以保证消费这条消息）
