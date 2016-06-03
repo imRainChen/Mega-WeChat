@@ -335,7 +335,7 @@ Send协议也是发送模板消息，不同于Push的是Server端会在调用完
 ----------
 如果有什么建议欢迎联系，[也可发布问题和反馈。](https://github.com/imRainChen/Mega-Wechat/issues)
 
-联系QQ：125876448
+Email：chenjiarong448@qq.com
 
 License
 ----------
