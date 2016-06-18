@@ -126,7 +126,8 @@ class WechatApi extends BaseWechatApi
         ]);
 
         switch ($result['errcode']) {
-            case 42001: //token过期
+            case 42001 : //token过期
+            case 40001 : //不是最新的token
                 $result = $this->sendTemplateMessage($data, true);
                 return $result;
         }
