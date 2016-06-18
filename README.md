@@ -163,7 +163,8 @@ template字段格式，例子如下：
     }
 }
 
-注意：JSON中的${OPENID}，是自定义的变量，调用微信模板消息接口前会先解析json模板并替换相应的自定义变量。该变量由发送Mega模板命令请求的参数定义
+注意：JSON中的${OPENID}，是自定义的变量，调用微信模板消息接口前会先解析json模板并替换相应的自定义变量。
+该变量由发送Mega模板命令请求的参数定义
 ```
 
 ###配置
@@ -334,7 +335,7 @@ Send协议也是发送模板消息，不同于Push的是Server端会在调用完
 ----------
 如果有什么建议欢迎联系，[也可发布问题和反馈。](https://github.com/imRainChen/Mega-Wechat/issues)
 
-联系QQ：125876448
+Email：chenjiarong448@qq.com
 
 License
 ----------
