@@ -303,7 +303,7 @@ new BooleanCommand($code, $message, $opaque)
 
 客户端实现思路
 ----------
-Mega-Wechat暂时未开源客户端实现，这部分公司正在运行当中，会在以后开源出来。不过对此会给大家写两个思路，第一种是利用Send协议，另一种是Push协议，这两者可以应对不同的场景。
+第一种是利用Send协议，另一种是Push协议，这两者可以应对不同的场景。
 
 ####Push场景
 Push协议主要是对于不希望等待微信调用API耗时的实现。具体来说Push会把每一次发送模板消息放入队列后，Server端就会立刻作出应答，此时客户端就可以继续运行业务逻辑，而不需要关心这条发送模板消息是否成功。（Server端可以保证消费这条消息）
@@ -330,6 +330,8 @@ Send协议也是发送模板消息，不同于Push的是Server端会在调用完
 
 ![这里写图片描述](http://img.blog.csdn.net/20160603170000551)
 
+最后附上开源Client DEMO
+github: https://github.com/imRainChen/Mega-WeChat-Client
 
 贡献
 ----------
