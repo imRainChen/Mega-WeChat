@@ -94,15 +94,21 @@ mega				Mega命令入口
 > autoconf 
 
 下载地址
+
 [https://github.com/swoole/swoole-src/releases](https://github.com/swoole/swoole-src/releases)
+
 [http://pecl.php.net/package/swoole](http://pecl.php.net/package/swoole)
+
 [http://git.oschina.net/matyhtf/swoole](http://git.oschina.net/matyhtf/swoole)
 
 下载源代码包后，在终端进入源码目录，执行下面的命令进行编译和安装
 
 > cd swoole
+
 > phpize ./configure
+
 > make
+
 > make install
 
 ###服务端对Mysql的依赖
