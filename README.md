@@ -67,13 +67,13 @@ mega				Mega命令入口
 介绍
 ----------
 
-###环境要求
+### 环境要求
  - php5.6+
  - Swoole1.8.2+
  - Mysql
  - Linux系统
 
-###安装
+### 安装
 
 **第一步**
 安装PHP，需要5.6以上版本。由于服务端的队列用了SPL函数和PHP新特性的语法
@@ -173,7 +173,7 @@ template字段格式，例子如下：
 该变量由发送Mega模板命令请求的参数定义
 ```
 
-###配置
+### 配置
 配置文件统一放在config目录下，每个server独立一个配置。
 ``` ini
 [server]
@@ -226,7 +226,7 @@ log_level = warning
 log_prefix = mega
 
 ```
-###使用
+### 使用
 
 根据配置文件启动server，以每个.ini文件作为服务名和配置，如config/wechat.ini配置文件：
 
@@ -267,7 +267,7 @@ Mega-Wechat通信走的是TCP，协议采用固定包头+包体的协议设计�
 new SendCommand($opaque, $openid, $key, $data, $fd)
 ```
 
-####**Push**
+#### **Push**
 模板消息入队命令协议。服务端接收到该命令后会立即入队并响应ACK确认，后续会根据队列排队后执行发送微信模板消息处理。
 
 对应类为：Network\PushCommand
@@ -281,7 +281,7 @@ new SendCommand($opaque, $openid, $key, $data, $fd)
 new PushCommand($opaque, $openid, $key, $data)
 ```
 
-####**TSet**
+#### **TSet**
 设置模板缓存命令协议。服务端接收到该命令后会根据key从数据库中获取模板内容并缓存到内存中，若key不存在或者超出缓存大小会响应相关错误信息。
 
 对应类为：Network\SetTableCommand
@@ -294,7 +294,7 @@ new PushCommand($opaque, $openid, $key, $data)
 new SetTableCommand($opaque, $key, $fd)
 ```
 
-####**Result**
+#### **Result**
 通用应答命令协议，返回请求结果。该协议可作为ACK确认，根据返回的opaque值作为上次请求的应答。返回的code作为应答码，采用HTTP协议应答状态码一样的语义。若是错误的响应通常会带上message字段。例如Send命令发送失败后会响应code为400，message为微信模板消息接口返回的json作为应答。
 
 对应类为：Network\BooleanCommand
@@ -311,10 +311,10 @@ new BooleanCommand($code, $message, $opaque)
 ----------
 第一种是利用Send协议，另一种是Push协议，这两者可以应对不同的场景。
 
-####Push场景
+#### Push场景
 Push协议主要是对于不希望等待微信调用API耗时的实现。具体来说Push会把每一次发送模板消息放入队列后，Server端就会立刻作出应答，此时客户端就可以继续运行业务逻辑，而不需要关心这条发送模板消息是否成功。（Server端可以保证消费这条消息）
 
-####Send场景
+#### Send场景
 Send协议也是发送模板消息，不同于Push的是Server端会在调用完成微信模板消息API后将结果作为应答。客户端收到应答后可获取发送的结果（应答是Result协议，成功会返回code是200，而失败会返回code是400，message为微信返回结果的json），根据结果客户端可做相应的业务逻辑处理。
 
 **Send协议会存在几点问题：**
