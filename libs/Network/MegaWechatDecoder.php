@@ -43,6 +43,7 @@ class MegaWechatDecoder implements Decoder
 
     /**
      * @param $message
+     * @param $fd
      * @param $server
      * @return RequestCommand
      * @throws \Exception

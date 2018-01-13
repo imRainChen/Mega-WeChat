@@ -25,7 +25,8 @@ class MegaWechatServer extends TcpServer
     protected $processName = 'MegaWechatServer';
 
     public $setting = [
-        'open_eof_check' => true,
+        'open_eof_check' => false,
+        'open_length_check' => true,
         'package_length_type' => 'N',
         'package_length_offset' => 0,
         'package_body_offset' => 4,

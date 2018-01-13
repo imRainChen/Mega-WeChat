@@ -46,7 +46,15 @@ class MegaWechatProtocol extends Base
         // worker进程
         if (!$server->taskworker) {
             $filePath = Config::get('server.queue_file_path') . '/task-' . $workerId;
-            $this->queue = new FileQueue($filePath);
+            try
+            {
+                $this->queue = new FileQueue($filePath);
+            }
+            catch (\Exception $e)
+            {
+                $this->logger->warning($e->getMessage());
+                $this->server->shutdown();
+            }
             $this->taskWorkerNum = $this->server->setting['task_worker_num'];
 
             // 定时检测队列是否有未处理的数据
@@ -88,7 +96,7 @@ class MegaWechatProtocol extends Base
                     $server->send($fd, $this->encode($message));
                 } else {
                     $message = new BooleanCommand(HttpStatus::BAD_REQUEST, 'template key not exists', $command->getOpaque());
-                    $server->send($command->getFd(), $this->encode($message));
+                    $server->send($fd, $this->encode($message));
                 }
             } else if ($command instanceof SetTableCommand) {
                 try {
@@ -134,7 +142,9 @@ class MegaWechatProtocol extends Base
     function onShutdown(\swoole_server $server, $workerId)
     {
         if (!$server->taskworker) {
-            $this->queue->close();
+            if ($this->queue) {
+                $this->queue->close();
+            }
         }
     }
 

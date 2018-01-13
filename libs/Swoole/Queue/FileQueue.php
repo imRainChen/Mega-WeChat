@@ -41,7 +41,7 @@ class FileQueue implements Queue
         $this->fileLimitLength = $fileLimitLength;
         if (!is_dir($dir)) {
             if (!mkdir($dir)) {
-                throw new \ErrorException('create dir have failed');
+                throw new \ErrorException('create ' . $dir . ' dir have failed');
             }
         }
 
