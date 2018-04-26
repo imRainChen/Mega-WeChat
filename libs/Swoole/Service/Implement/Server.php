@@ -273,6 +273,7 @@ abstract class Server implements Driver
                 break;
             //start
             case 'start':
+                $this->registShutdownFunction();
                 $this->initServer();
                 $this->start();
                 break;
@@ -283,6 +284,7 @@ abstract class Server implements Driver
             case 'restart':
                 $this->shutdown();
                 sleep(2);
+                $this->registShutdownFunction();
                 $this->initServer();
                 $this->start();
                 break;
@@ -292,6 +294,16 @@ abstract class Server implements Driver
             default:
                 echo 'Usage:php swoole.php start | stop | reload | restart | status | help' . PHP_EOL;
                 break;
+        }
+    }
+    
+    protected function registShutdownFunction()
+    {
+        if ($this->setting['daemonize'] == 0) {
+            $_self = $this;
+            register_shutdown_function(function() use ($_self) {
+                $_self->shutdown();
+            });
         }
     }
 
