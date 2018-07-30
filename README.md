@@ -36,7 +36,7 @@ Mega-Wechat是一款发送微信模板消息的服务，基于Swoole网络框架
 ----------
 Mega-Wechat系统架构如下图所示：
 
-![mega-wechat服务架构](https://img-blog.csdn.net/20160601212545358)
+![mega-wechat服务架构](https://note.youdao.com/yws/api/personal/file/WEB1f9467a5b2fb25d4cea9cad926b8c2d8?method=download&shareKey=54ea032c13c4392ad05bacb01825b1ce)
 
 **系统执行过程描述：**
 
@@ -334,7 +334,7 @@ Send协议也是发送模板消息，不同于Push的是Server端会在调用完
 
 附上一张客户端实现效果图：
 
-![这里写图片描述](https://img.blog.csdn.net/20160603170000551)
+![这里写图片描述](https://note.youdao.com/yws/api/personal/file/WEB436c8ffaecd9e873feb8f7cfff03ffa2?method=download&shareKey=6be71e4741189afb23fb65f81645fa29)
 
 最后附上开源Client DEMO
 github: https://github.com/imRainChen/Mega-WeChat-Client
