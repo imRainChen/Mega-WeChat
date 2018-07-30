@@ -36,7 +36,7 @@ Mega-Wechat是一款发送微信模板消息的服务，基于Swoole网络框架
 ----------
 Mega-Wechat系统架构如下图所示：
 
-![mega-wechat服务架构](http://img.blog.csdn.net/20160601212545358)
+![mega-wechat服务架构](https://img-blog.csdn.net/20160601212545358)
 
 **系统执行过程描述：**
 
@@ -328,13 +328,13 @@ Send协议也是发送模板消息，不同于Push的是Server端会在调用完
 **实际场景：**
 需要对指定一批用户或所有用户批量发送模板消息，可利用这个协议实现。可以把发送一批模板消息给用户看作是一次任务，该任务包含发送数量，成功数，失败数，模板key等等的数据。通过客户端实现发送，接收和记录发送过程的业务逻辑。每次的服务端的应答作为更新成功还是失败的依据。具体业务流程如下图：
 
-![这里写图片描述](http://img.blog.csdn.net/20160603172251483)
+![这里写图片描述](https://img.blog.csdn.net/20160603172251483)
 
 以上业务逻辑推荐使用Swoole异步客户端实现，并且运行后可将客户端作为守护进程后台运行，需要结束时可用kill关闭。
 
 附上一张客户端实现效果图：
 
-![这里写图片描述](http://img.blog.csdn.net/20160603170000551)
+![这里写图片描述](https://img.blog.csdn.net/20160603170000551)
 
 最后附上开源Client DEMO
 github: https://github.com/imRainChen/Mega-WeChat-Client
